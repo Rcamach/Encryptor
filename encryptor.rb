@@ -36,16 +36,25 @@ class Encryptor
 
   def encrypt_word(string)
     results = []
-    letters = string.split('')
+    letters = string.split("")
     letters.each do |letter|
-      encrypt(letter)
-      results << encrypt(letter)
-      end
+    results << encrypt(letter)
+    end
     string = results.join
   end
+
+  def encrypt_file (file)
+    new_file = File.open(file, "r+")
+    encrypted_file = encrypt_word(new_file.read)
+    new_file.close
+    other_file = File.open(file + ".encrypted", "w+")
+    other_file.write(encrypted_file)
+    other_file.close
+
+  end
 end
-
-
 e = Encryptor.new
 
-puts e.encrypt_word("ehql")
+puts e.encrypt_word("hello")
+
+e.encrypt_file("secret-message.txt")
